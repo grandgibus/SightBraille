@@ -1,0 +1,25 @@
+﻿<Window x:Class="SightBraille.BrailleSymbolListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SightBraille"
+        mc:Ignorable="d"
+        Title="Liste des symboles" Height="350" Width="539.813" ResizeMode="CanMinimize">
+    <DockPanel>
+        <ListView SelectionChanged="CharacterList_SelectionChanged" Name="CharacterList" Margin="10" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="150">
+            
+        </ListView>
+        <DockPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="Character" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontSize="72" FontWeight="Bold" Margin="40,0,0,0" Width="65">
+                     
+                </TextBlock>
+                <Rectangle Margin="39,20,0,20" Width="2" Fill="#FFB8B8B8"></Rectangle>
+            </StackPanel>
+            <StackPanel x:Name="SymbolsPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</Window>
