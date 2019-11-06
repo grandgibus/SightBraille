@@ -159,6 +159,7 @@ namespace SightBraille
             {'è', new BrailleSymbol("######") },
             {'ê', new BrailleSymbol("#-#--#") },
             {'ë', new BrailleSymbol("###--#") },
+            {'é', new BrailleSymbol("######") },
             {'î', new BrailleSymbol("##---#") },
             {'ï', new BrailleSymbol("####-#") },
             {'ô', new BrailleSymbol("##-#-#") },
@@ -221,8 +222,8 @@ namespace SightBraille
         };
 
         public static List<char> WhitespaceChars = new List<char> {' '};
-        public static List<char> LowercaseChars = new List<char> {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','à','â','ç','è','ê','ë','î','ï','ô','œ','ù','û','ü',',',';',':','.','?','!','"','(',')','\'','-','*','/','@'};
-        public static List<char> UppercaseChars = new List<char> {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','À', 'Â', 'Ç', 'È', 'Ê', 'Ë', 'Î', 'Ï', 'Ô', 'Œ', 'Ù', 'Û', 'Ü'};
+        public static List<char> LowercaseChars = new List<char> {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','à','â','ç','è','ê','ë','é','î','ï','ô','œ','ù','û','ü',',',';',':','.','?','!','"','(',')','\'','-','*','/','@'};
+        public static List<char> UppercaseChars = new List<char> {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','À', 'Â', 'Ç', 'È', 'Ê', 'Ë', 'É', 'Î', 'Ï', 'Ô', 'Œ', 'Ù', 'Û', 'Ü'};
         public static List<char> NumberChars = new List<char> {'1','2','3','4','5','6','7','8','9','0','+','-','×','÷','='};
         public static List<char> SymbolChars = new List<char> {'§','&','©','®','™','%'};
         public static List<char> CurrencyChars = new List<char> {'¥','€','$','£'};
