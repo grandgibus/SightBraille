@@ -38,6 +38,11 @@ namespace SightBraille
             app.ChangeEditorWindowTitleStatus(FilePath != null ? FilePath : "Nouveau fichier");
         }
 
+        public void UpdateDocument(List<BrailleCharacter>[] data)
+        {
+            this.Characters = data;
+        }
+
         public void SaveDocument(List<BrailleCharacter>[] data)
         {
             this.Characters = data;
@@ -132,6 +137,84 @@ namespace SightBraille
             {
                 Characters[i] = new List<BrailleCharacter>();
             }
+        }
+
+        public string GetInstructions()
+        {
+            List<String> instructions = new List<string>();
+            instructions.Add("START_PRINT");
+            Document document = this;
+
+            for (int i = 0; i < SightBrailleApp.CHARACTER_ROWS; i++)
+            {
+                List<BrailleSymbol> symbols = CalculateSymbols(document, i);
+
+                for (int j = 0; j < 3; j++)
+                {
+                    List<String> dotLine = new List<String>();
+                    dotLine.Add("BEGIN_LINE");
+                    int horizontalPosition = 0;
+
+                    foreach (BrailleSymbol symbol in symbols)
+                    {
+
+                        for (int k = 0; k < 2; k++)
+                        {
+                            if (symbol.Points[j, k])
+                            {
+                                dotLine.Add((horizontalPosition + k).ToString());
+                            }
+                        }
+
+                        horizontalPosition += 2;
+                    }
+
+                    dotLine.Add("STOP_LINE");
+                    instructions.AddRange(dotLine);
+                }
+            }
+
+            instructions.Add("END_OF_PRINT");
+
+            return string.Join("\n", instructions.ToArray());
+        }
+
+        private List<BrailleSymbol> CalculateSymbols(Document document, int row)
+        {
+            List<BrailleCharacter> characters = document.Characters[row];
+            List<BrailleSymbol> symbols = new List<BrailleSymbol>();
+            int i = 0;
+            int length = characters.Count;
+            BrailleCharacter before = BlankCharacter;
+            BrailleCharacter beforebefore = BlankCharacter;
+            BrailleCharacter after;
+
+            //int symbolCountBefore = Symbols[row].Count;
+            foreach (BrailleCharacter character in characters)
+            {
+                if (i < length - 1)
+                {
+                    after = characters[i + 1];
+                }
+                else
+                {
+                    after = BlankCharacter;
+                }
+
+                foreach (BrailleSymbolSlot slot in character.GetSymbols(beforebefore, before, after))
+                {
+                    symbols.Add(slot.GetSymbol());
+
+                }
+
+                //Next
+                beforebefore = before;
+                before = character;
+                i++;
+            }
+
+            return symbols;
+
         }
     }
 }

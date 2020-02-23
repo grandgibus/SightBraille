@@ -39,6 +39,24 @@ namespace SightBraille
             this.SymbolMenu.Command = DictionnaryCommand;
 
             this.SerialPortsComboBox.ItemsSource = (Application.Current as SightBrailleApp).ConnectionManager.SerialPorts;
+            this.SerialPortsComboBox.SelectionChanged += SelectedPortChanged;
+        }
+
+        public void AddCharacter(char c)
+        {
+            this._editor.AttemptWriteChar(c);
+        }
+
+        private void SelectedPortChanged(object obj, SelectionChangedEventArgs e)
+        {
+            if(this.SerialPortsComboBox.SelectedItem != null && (this.SerialPortsComboBox.SelectedItem as SerialPortConnection).State == PortConnectionState.CONNECTED)
+            {
+                this.PrintBrailleButton.IsEnabled = true;
+            }
+            else
+            {
+                this.PrintBrailleButton.IsEnabled = false;
+            }
         }
 
         private void CanExecuteDictionnary(object obj, CanExecuteRoutedEventArgs e)
@@ -113,6 +131,15 @@ namespace SightBraille
             saveFileDialog.Filter = "Fichier braille (*.braille)|*.braille|Tous les fichiers (*.*)|*.*";
         }
 
+        public void AutoSelectSerialPort(int recommendedPort)
+        {
+            if(this.SerialPortsComboBox.SelectedItem == null)
+            {
+                this.SerialPortsComboBox.SelectedIndex = recommendedPort;
+            }
+        }
+
+
         private void printDocument()
         {
 
@@ -160,16 +187,23 @@ namespace SightBraille
                 document.ColumnWidth = printDialog.PrintableAreaWidth;
                 IDocumentPaginatorSource idpSource = document;
                 printDialog.PrintDocument(idpSource.DocumentPaginator, "Braille");
-
-/*                FlowDocumentPageViewer viewer = new FlowDocumentPageViewer();
-                viewer.Document = document;
-                Window preview = new Window();
-                preview.Background = Brushes.LightGray;
-                preview.Content = viewer;
-                preview.Show();*/
             }
 
 
+        }
+
+        private void PrintBrailleButton_Click(object sender, RoutedEventArgs e)
+        {
+            Document document = (Application.Current as SightBrailleApp).Document;
+            document.UpdateDocument(_editor.Characters);
+            (Application.Current as SightBrailleApp).ConnectionManager.PrintBrailleDocument(this.SerialPortsComboBox.SelectedIndex);
+        }
+
+        private void InstructionsOutput_Click(object sender, RoutedEventArgs e)
+        {
+            Document document = (Application.Current as SightBrailleApp).Document;
+            document.UpdateDocument(_editor.Characters);
+            MessageBox.Show(string.Join("\n", document.GetInstructions().Split('\n').ToArray()), "Instructions");
         }
     }
 }

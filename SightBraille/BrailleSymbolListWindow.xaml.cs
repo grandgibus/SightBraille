@@ -45,6 +45,17 @@ namespace SightBraille
             this.SymbolsPanel.Children.Add(firstSymbol.DotCanvas);
             this.SymbolsPanel.Children.Add(secondSymbol.DotCanvas);
             this.secondSymbol.DotCanvas.Margin = new Thickness(20, 0, 0, 0);
+
+            this.CharacterList.MouseDoubleClick += DoubleClick;
+        }
+
+        private void DoubleClick(object obj, MouseEventArgs args)
+        {
+            if(CharacterList.SelectedIndex != -1)
+            {
+                ((SightBrailleApp.Current as SightBrailleApp).MainWindow as EditorWindow).AddCharacter((char)((ListViewItem)CharacterList.SelectedItem).Content);
+                this.Close();
+            }
         }
 
         private void CharacterList_SelectionChanged(object sender, SelectionChangedEventArgs e)

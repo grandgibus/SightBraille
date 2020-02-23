@@ -50,7 +50,8 @@ namespace SightBraille
                     Opacity = 0.3
                 },
                 UseLayoutRounding = true,
-                Margin = new Thickness(0, 15, 0, 15)
+                Margin = new Thickness(0, 15, 0, 15),
+                Focusable = false
             };
             this._parent = panel;
             this._parent.Child = (this.EditorContainer);
@@ -565,7 +566,6 @@ namespace SightBraille
                 Background = Brushes.Transparent,
                 UseLayoutRounding = true,
                 Cursor = Cursors.IBeam,
-                Focusable = true,
                 IsEnabled = true
             };
 

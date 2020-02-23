@@ -7,7 +7,9 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using static SightBraille.BrailleEditor;
 using static SightBraille.SightBrailleApp;
 
 namespace SightBraille
@@ -70,6 +72,7 @@ namespace SightBraille
                             if (checkIsBraillePrinter())
                             {
                                 setConnectionState(PortConnectionState.CONNECTED);
+                                TriggerAutoSelect();
                             }
                             else
                             {
@@ -99,14 +102,68 @@ namespace SightBraille
             isBusy = false;
         }
 
-        private void sendInstructions()
+        private void TriggerAutoSelect()
+        {
+            int i = 0;
+            foreach (SerialPortConnection connection in ((SightBrailleApp.Current as SightBrailleApp).ConnectionManager.SerialPorts))
+            {
+                if (connection.State == PortConnectionState.CONNECTED)
+                {
+                    ((SightBrailleApp.Current as SightBrailleApp).MainWindow as EditorWindow).AutoSelectSerialPort(i);
+                }
+                i++;
+            }
+        }
+
+        public void SendInstructions()
         {
             if (!isBusy)
             {
                 this.isBusy = true;
                 //Send instructions
+
+                string instructions = (Application.Current as SightBrailleApp).Document.GetInstructions();
+                Port.Write(instructions);
             }
             this.isBusy = false;
+        }
+
+        private List<BrailleSymbol> CalculateSymbols(Document document, int row)
+        {
+            List<BrailleCharacter> characters = document.Characters[row];
+            List<BrailleSymbol> symbols = new List<BrailleSymbol>();
+            int i = 0;
+            int length = characters.Count;
+            BrailleCharacter before = BlankCharacter;
+            BrailleCharacter beforebefore = BlankCharacter;
+            BrailleCharacter after;
+
+            //int symbolCountBefore = Symbols[row].Count;
+            foreach (BrailleCharacter character in characters)
+            {
+                if (i < length - 1)
+                {
+                    after = characters[i + 1];
+                }
+                else
+                {
+                    after = BlankCharacter;
+                }
+
+                foreach (BrailleSymbolSlot slot in character.GetSymbols(beforebefore, before, after))
+                {
+                    symbols.Add(slot.GetSymbol());
+
+                }
+
+                //Next
+                beforebefore = before;
+                before = character;
+                i++;
+            }
+
+            return symbols;
+
         }
 
         private bool checkIsBraillePrinter()

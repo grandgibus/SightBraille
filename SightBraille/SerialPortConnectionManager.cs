@@ -23,6 +23,15 @@ namespace SightBraille
         {
 
         }
+
+        public void PrintBrailleDocument(int index)
+        {
+            if(SerialPorts[index] != null && SerialPorts[index].State == PortConnectionState.CONNECTED)
+            {
+                SerialPorts[index].SendInstructions();
+            }
+        }
+
         private void SerialPortChanged(object obj, PortsChangedArgs e)
         {
             List<string> newPorts = new List<string>(SerialPort.GetPortNames());

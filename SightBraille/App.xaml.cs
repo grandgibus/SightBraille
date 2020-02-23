@@ -156,7 +156,7 @@ namespace SightBraille
             {'à', new BrailleSymbol("#-####") },
             {'â', new BrailleSymbol("#----#") },
             {'ç', new BrailleSymbol("###-##") },
-            {'è', new BrailleSymbol("######") },
+            {'è', new BrailleSymbol("-##-##") },
             {'ê', new BrailleSymbol("#-#--#") },
             {'ë', new BrailleSymbol("###--#") },
             {'é', new BrailleSymbol("######") },

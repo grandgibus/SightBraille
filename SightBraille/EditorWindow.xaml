@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SightBraille"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="SightBraille" Height="551.309" Width="810.638" MinWidth="420" MinHeight="580">
+        Title="SightBraille" Height="551.309" Width="810.638" MinWidth="420" MinHeight="580" IsTabStop="False">
     <Window.Resources>
         <Style TargetType="ToolBar">
             <Setter Property="Background" Value="Transparent"></Setter>
@@ -36,17 +36,19 @@
         <CommandBinding Command="SaveAs" CanExecute="SaveAsCommand_CanExecute" Executed="SaveAsCommand_Executed"></CommandBinding>
         <CommandBinding Command="Print" CanExecute="PrintCommand_CanExecute" Executed="PrintCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
-    <Grid Focusable="True" Margin="0" Name="Grid" Background="White">
+    <Grid Margin="0" Name="Grid" Background="White">
         <DockPanel Margin="0" Panel.ZIndex="1" Background="#FFF3F3F3">
             <Menu VerticalAlignment="Top" DockPanel.Dock="Top" Background="White">
-                <MenuItem Header="_Fichier">
+                <MenuItem Header="_Fichier" IsTabStop="False">
                     <MenuItem Header="Nouveau" Command="New"/>
                     <MenuItem Header="Ouvrir" Command="Open"/>
                     <MenuItem Header="Enregister" Command="Save"/>
                     <MenuItem Header="Enregister sous" Command="SaveAs"/>
                 </MenuItem>
-                <MenuItem Header="Paramètres">
+                <MenuItem Header="Paramètres" IsTabStop="False">
                     <MenuItem Name="SymbolMenu" Header="Symboles"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Name="InstructionsOutput" Header="Instructions" Click="InstructionsOutput_Click"></MenuItem>
                 </MenuItem>
             </Menu>
             <Grid DockPanel.Dock="Top" Background="White" Panel.ZIndex="1">
@@ -58,23 +60,23 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel DockPanel.Dock="Top" Background="White" UseLayoutRounding="True" Orientation="Horizontal">
-                    <Button Command="New" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                    <Button Command="New" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" IsTabStop="False" Focusable="False">
                         <iconPacks:PackIconMaterial Kind="File" Style="{StaticResource MenuBarItem}" />
                     </Button>
-                    <Button Command="Open" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                    <Button Command="Open" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" IsTabStop="False" Focusable="False">
                         <iconPacks:PackIconMaterial Kind="FolderOpen" Style="{StaticResource MenuBarItem}" />
                     </Button>
-                    <Button Command="Save" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                    <Button Command="Save" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" IsTabStop="False" Focusable="False">
                         <iconPacks:PackIconMaterial Kind="ContentSave" Style="{StaticResource MenuBarItem}" />
                     </Button>
-                    <Button Command="Print" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                    <Button Command="Print" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" IsTabStop="False" Focusable="False">
                         <iconPacks:PackIconMaterial Kind="Printer" Style="{StaticResource MenuBarItem}" />
                     </Button>
-                    <Button x:Name="DictionnaryButton" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                    <Button x:Name="DictionnaryButton" Style="{StaticResource MenuBar}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" IsTabStop="False" Focusable="False">
                         <iconPacks:PackIconMaterial Kind="Fingerprint" Style="{StaticResource MenuBarItem}" />
                     </Button>
                     <Rectangle Width="1" Fill="#FF595959" Margin="3,5" />
-                    <ComboBox Name="SerialPortsComboBox" Width="100" Margin="5,5,0,5">
+                    <ComboBox Name="SerialPortsComboBox" Width="100" Margin="5,5,0,5" IsTabStop="False" Focusable="False">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -85,7 +87,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
-                <Button Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" Margin="0" Padding="0" Cursor="Hand">
+                <Button x:Name="PrintBrailleButton" Grid.Column="1" HorizontalContentAlignment="Center" HorizontalAlignment="Right" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" Margin="0" Padding="0" Cursor="Hand" IsEnabled="False" IsTabStop="False" Focusable="False" Click="PrintBrailleButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <iconPacks:PackIconMaterial Kind="Play" Margin="10,0,5,0" HorizontalAlignment="Left"></iconPacks:PackIconMaterial>
                         <TextBlock Text="Imprimer" Margin="0,0,15,0"/>
@@ -107,6 +109,9 @@
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="#FF006ECB"/>
                                 </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="#FF9B9B9B"/>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
@@ -114,7 +119,7 @@
             </Grid>
             <DockPanel DockPanel.Dock="Bottom" Background="WhiteSmoke">
             </DockPanel>
-            <Viewbox Focusable="True" Name="MainEditorContainer" UseLayoutRounding="True"/>
+            <Viewbox Name="MainEditorContainer" UseLayoutRounding="True"/>
         </DockPanel>
     </Grid>
 </Window>
